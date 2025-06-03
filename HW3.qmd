@@ -15,6 +15,8 @@ library(palmerpenguins)
 ### Question 1 
 
 ```{r}
+
+## import data
 read_csv("Data/data.txt")
 
 
@@ -24,6 +26,8 @@ The reason that we cannot use read_csv is that the data is delimited by somethin
 
 
 ```{r}
+#import data and assign
+
 data = read_csv2("Data/data.txt")
 data
 ```
@@ -36,7 +40,7 @@ data
 data2 = read_delim("Data/data2.txt",
   delim = "6",
   col_types = cols(
-    x = col_factor(),
+    x = col_factor(), 
     y = col_double(),
     z = col_character()
   )
@@ -58,6 +62,8 @@ trailblazer <- read_csv("Data/trailblazer.csv")
 
 glimpse(trailblazer)
 
+
+## checking data 
 head(trailblazer)
 
 ```
@@ -66,8 +72,8 @@ head(trailblazer)
 
 ```{r}
 trailblazer_longer = trailblazer %>%
-  pivot_longer(!Player, names_to = "Game_Location", values_to = "Points") %>%
-  separate(Game_Location, into = c("Game", "Location"), sep = "_")
+  pivot_longer(!Player, names_to = "Game_Location", values_to = "Points") %>% # make columns 
+  separate(Game_Location, into = c("Game", "Location"), sep = "_") ## separate columns 
 
 head(trailblazer_longer, 5)
 ```
@@ -77,14 +83,15 @@ head(trailblazer_longer, 5)
 ```{r}
 
 trailblazer_points = trailblazer_longer %>%
-  pivot_wider(names_from = Location, values_from = Points) %>%
-  group_by(Player) %>%
-  summarise(
+  pivot_wider(names_from = Location, 
+              values_from = Points) %>% # make columns 
+  group_by(Player) %>% # group for summarize function
+  summarise( 
     mean_home = mean(Home, na.rm = TRUE),
     mean_away = mean(Away, na.rm = TRUE),
     difference = mean_home - mean_away
   ) %>%
-  arrange(desc(difference))
+  arrange(desc(difference)) # arrange
 
 trailblazer_points
 
@@ -99,6 +106,8 @@ trailblazer_points
 
 
 ```{r}
+## checking question
+
 penguins |>
   select(species, island, bill_length_mm) |>
   pivot_wider(
@@ -106,11 +115,11 @@ penguins |>
 )
 ```
 
-<NULL> = there is no data for that combination of species and island
+"<NULL>" = there is no data for that combination of species and island
 
-<dbl [52]> = there are 52 values with a class of "double"
+"<dbl [52]>" = there are 52 values with a class of "double"
 
-<list> = indicates that the column contains a list-column instead of a value 
+"<list>" = indicates that the column contains a list-column instead of a value 
 
 
 ### Question 2 
@@ -118,9 +127,9 @@ penguins |>
 
 ```{r}
 penguins %>%
-  count(species, island) %>%
+  count(species, island) %>% # count combinations
   pivot_wider(
-    names_from = island, values_from = n, values_fill = 0)
+    names_from = island, values_from = n, values_fill = 0) ## pivot to match
 
 ```
 
@@ -130,6 +139,8 @@ penguins %>%
 ### Question 1
 
 ```{r}
+## Checking original dataset
+
 penguins
 ```
 
@@ -137,25 +148,17 @@ penguins
 
 ```{r}
 penguins_fixed = penguins %>%
-  mutate(
-    bill_length_mm = case_when(
+  mutate( ## column access
+    bill_length_mm = case_when( ## ifelse
       is.na(bill_length_mm) & species == "Adelie" ~ 26,
       is.na(bill_length_mm) & species == "Gentoo" ~ 30,
-      TRUE ~ bill_length_mm
+      TRUE ~ bill_length_mm ## else case
     )
   ) %>%
   arrange(bill_length_mm)
 
 head(penguins_fixed, 10)
-
 ```
-
-
-```{r}
-penguins_fixed2 = penguins %>%
-  mutate()
-```
-
 
 
 
