@@ -1,5 +1,5 @@
 ---
-title: "Hw3"
+title: "Homework 3: Programming with Tidyverse and Base R"
 author: Keshav Ramesh
 format: pdf
 editor: visual
@@ -91,6 +91,92 @@ trailblazer_points
 
 
 ```
+
+\newpage
+## Task 3
+
+### Question 1 
+
+
+```{r}
+penguins |>
+  select(species, island, bill_length_mm) |>
+  pivot_wider(
+  names_from = island, values_from = bill_length_mm
+)
+```
+
+<NULL> = there is no data for that combination of species and island
+
+<dbl [52]> = there are 52 values with a class of "double"
+
+<list> = indicates that the column contains a list-column instead of a value 
+
+
+### Question 2 
+
+
+```{r}
+penguins %>%
+  count(species, island) %>%
+  pivot_wider(
+    names_from = island, values_from = n, values_fill = 0)
+
+```
+
+\newpage
+## Task 4
+
+### Question 1
+
+```{r}
+penguins
+```
+
+
+
+```{r}
+penguins_fixed = penguins %>%
+  mutate(
+    bill_length_mm = case_when(
+      is.na(bill_length_mm) & species == "Adelie" ~ 26,
+      is.na(bill_length_mm) & species == "Gentoo" ~ 30,
+      TRUE ~ bill_length_mm
+    )
+  ) %>%
+  arrange(bill_length_mm)
+
+head(penguins_fixed, 10)
+
+```
+
+
+```{r}
+penguins_fixed2 = penguins %>%
+  mutate()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
