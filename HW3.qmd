@@ -1,0 +1,75 @@
+---
+title: "Hw3"
+author: Keshav Ramesh
+format: pdf
+editor: visual
+---
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+
+```
+
+## Task 1 
+
+### Question 1 
+
+```{r}
+read_csv("Data/data.txt")
+
+
+```
+
+The reason that we cannot use read_csv is that the data is delimited by something other than a comma or a tab. 
+
+
+```{r}
+data = read_csv2("Data/data.txt")
+data
+```
+
+
+### Question 2
+
+
+```{r}
+data2 = read_delim("Data/data2.txt",
+  delim = "6",
+  col_types = cols(
+    x = col_factor(),
+    y = col_double(),
+    z = col_character()
+  )
+  
+)
+
+
+data2
+```
+
+\newpage
+## Task 2
+
+### Question 1
+
+
+```{r}
+trailblazer <- read_csv("Data/trailblazer.csv")
+
+glimpse(trailblazer)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
