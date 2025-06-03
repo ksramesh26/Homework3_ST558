@@ -58,9 +58,39 @@ trailblazer <- read_csv("Data/trailblazer.csv")
 
 glimpse(trailblazer)
 
+head(trailblazer)
+
 ```
 
+### Question 2
 
+```{r}
+trailblazer_longer = trailblazer %>%
+  pivot_longer(!Player, names_to = "Game_Location", values_to = "Points") %>%
+  separate(Game_Location, into = c("Game", "Location"), sep = "_")
+
+head(trailblazer_longer, 5)
+```
+
+### Question 3
+
+```{r}
+
+trailblazer_points = trailblazer_longer %>%
+  pivot_wider(names_from = Location, values_from = Points) %>%
+  group_by(Player) %>%
+  summarise(
+    mean_home = mean(Home, na.rm = TRUE),
+    mean_away = mean(Away, na.rm = TRUE),
+    difference = mean_home - mean_away
+  ) %>%
+  arrange(desc(difference))
+
+trailblazer_points
+
+
+
+```
 
 
 
